@@ -35,3 +35,9 @@ GITLAB_POSTGRES_HOST=postgres
 GITLAB_POSTGRES_USER=laradock_gitlab
 GITLAB_POSTGRES_PASSWORD=laradock_gitlab
 GITLAB_POSTGRES_DB=laradock_gitlab
+
+### SVN ################################################
+SVN_PORT=3690
+
+### grafana ################################################
+GRAFANA_PORT=3000

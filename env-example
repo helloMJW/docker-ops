@@ -1,0 +1,37 @@
+
+
+DATA_PATH_HOST=~/.docker-ops
+
+### Drivers ################################################
+
+# All volumes driver
+VOLUMES_DRIVER=local
+
+# All Networks driver
+NETWORKS_DRIVER=bridge
+
+# ALL log
+LOG_PATH=~/.docker-ops/logs
+
+### PROXY ###########
+HTTP_PROXY=
+HTTPS_PROXY=
+NO_PROXY=
+
+### jenkins ################################################
+
+JENKINS_WEB_PORT=8080
+JENKINS_MAP_PORT=50000
+
+### GITLAB ###############################################
+GITLAB_POSTGRES_INIT=true
+GITLAB_HOST_HTTP_PORT=8989
+GITLAB_HOST_HTTPS_PORT=9898
+GITLAB_HOST_SSH_PORT=2289
+GITLAB_DOMAIN_NAME=http://localhost
+GITLAB_ROOT_PASSWORD=laradock
+GITLAB_HOST_LOG_PATH=./logs/gitlab
+GITLAB_POSTGRES_HOST=postgres
+GITLAB_POSTGRES_USER=laradock_gitlab
+GITLAB_POSTGRES_PASSWORD=laradock_gitlab
+GITLAB_POSTGRES_DB=laradock_gitlab

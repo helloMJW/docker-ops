@@ -28,6 +28,8 @@ services:
           - http_proxy=${HTTP_PROXY}
           - https_proxy=${HTTPS_PROXY}
           - no_proxy=${NO_PROXY}
+      labels:
+        - "docker.group=mjw"
       environment:
       - JENKINS_UC_DOWNLOAD=https://mirrors.tuna.tsinghua.edu.cn/jenkins/
       restart: always
@@ -79,3 +81,47 @@ services:
         - "${GRAFANA_PORT}:3000"
       networks:
         - backend
+### influxdb ####################################################
+    influxdb:
+      container_name: influxdb
+      build:
+        context: ./influxdb
+      environment:
+        - PRE_CREATE_DB=cadvisor
+      ports:
+        - "${INFLUXDB_WEB_PORT}:8083"
+        - "${INFLUXDB_API_PORT}:8086"
+      expose:
+        - "8090"
+        - "8099"
+      volumes:
+        - ./influxdb/conf:/etc/influxdb
+        - ${DATA_PATH_HOST}/influxdb/data:/var/lib/influxdb/data
+        - ${DATA_PATH_HOST}/influxdb/meta:/var/lib/influxdb/meta
+        - ${DATA_PATH_HOST}/influxdb/wal:/var/lib/influxdb/wal
+### chronograf ####################################################
+    chronograf:
+      container_name: chronograf
+      build:
+        context: ./chronograf
+      ports:
+        - "${CHRONOGRAF_PORT}:8888"
+      volumes:
+        - ${DATA_PATH_HOST}/chronograf:/var/lib/chronograf
+
+### prometheus ####################################################
+    prometheus:
+      build:
+        context: ./prometheus
+      restart: unless-stopped
+      ports:
+        - '9090:9090'
+      user: '0'
+      command:
+        - '--config.file=/etc/prometheus/prometheus.yml'
+        - '--storage.tsdb.path=/prometheus/data'
+        - '--storage.tsdb.retention=90d'
+        - '--web.enable-lifecycle'
+      volumes:
+        - ./prometheus/conf:/etc/prometheus
+        - ${DATA_PATH_HOST}/prometheus/data:/prometheus/data
